@@ -1,0 +1,92 @@
+.dldh-select {
+	width: 100%;
+	box-sizing: border-box;
+	display: inline-block;
+	position: relative;
+	vertical-align: middle;
+	color: #666;
+	font-size: 12px;
+}
+.dldh-select .dldh-select-selection {
+	outline: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  box-sizing: border-box;
+  display: block;
+  background-color: #fff;
+  border-radius: 6px;
+  border: 1px solid #d9d9d9;
+  -webkit-transition: all .3s cubic-bezier(.645,.045,.355,1);
+  transition: all .3s cubic-bezier(.645,.045,.355,1);
+}
+.dldh-select .dldh-select-selection .dldh-select-selection__rendered {
+	overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 6px;
+  padding-bottom: 4px;
+}
+.dldh-select .dldh-select-ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.dldh-select .dldh-select-search--inline {
+  float: left;
+  width: 100%;
+  height: 100%;
+}
+.dldh-select .dldh-select-selection--multiple .dldh-select-search--inline {
+  width: auto;
+}
+.dldh-select .dldh-select-search__field__placeholder, .dldh-select .dldh-select-selection__placeholder {
+  position: absolute;
+  top: 50%;
+  left: 9px;
+  right: 9px;
+  color: #ccc;
+  line-height: 20px;
+  height: 20px;
+  max-width: 100%;
+  margin-top: -10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  user-select: none;
+}
+.dldh-select .dldh-select-search__field__wrap {
+  display: inline-block;
+  position: relative;
+}
+.dldh-select .dldh-select-search--inline .dldh-select-search__field__wrap {
+  width: 100%;
+  height: 100%;
+}
+.dldh-select .dldh-select-search--inline .dldh-select-search__field {
+  border: 0;
+  font-size: 100%;
+  height: 100%;
+  background: transparent;
+  outline: 0;
+  border-radius: 6px;
+}
+.dldh-select .dldh-select-search--inline .dldh-select-search__field__mirror {
+  position: absolute;
+  top: 0;
+  left: 9999px;
+  white-space: pre;
+  pointer-events: none;
+}
+.dldh-select .dldh-select-selection--multiple {
+  min-height: 28px;
+  cursor: text;
+}
+.dldh-select .dldh-select-selection--multiple .dldh-select-search--inline .dldh-select-search__field {
+  width: .75em;
+}
+.dldh-select .dldh-select-selection--multiple .dldh-select-selection__rendered>ul>li, .dldh-select .dldh-select-selection--multiple>ul>li {
+  margin-top: 4px;
+  height: 20px;
+  line-height: 20px;
+}

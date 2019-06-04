@@ -1,0 +1,63 @@
+.dldh-menu {
+  line-height: 46px;
+  outline: none;
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  //z-index: 1050;
+  color: #666;
+  background: #fff;
+  //box-shadow: 0 1px 6px hsla(0,0%,39%,.2);
+}
+.dldh-menu-submenu {
+  position: relative;
+}
+.dldh-menu-item, .dldh-menu-submenu, .dldh-menu-submenu-title {
+  cursor: pointer;
+  -webkit-transition: all .3s ease;
+  transition: all .3s ease;
+}
+.dldh-menu-item, .dldh-menu-submenu-title {
+  margin: 0;
+  padding: 0 20px;
+  position: relative;
+  display: block;
+  white-space: nowrap;
+  font-size: 12px;
+}
+.dldh-menu-inline .ant-menu-item, .dldh-menu-vertical .dldh-menu-item {
+  border-right: 1px solid #e9e9e9;
+  margin-left: -1px;
+  left: 1px;
+  position: relative;
+  z-index: 1;
+}
+.dldh-menu-hidden {
+  display: none;
+}
+.dldh-menu-dark, .dldh-menu-dark .dldh-menu-sub {
+  color: rgba(255, 255, 255, 0.65);
+  background: #001529;
+}
+.dldh-menu-dark .dldh-menu-item:hover, .dldh-menu-dark .dldh-menu-item-active, .dldh-menu-dark .dldh-menu-submenu-active, .dldh-menu-dark .dldh-menu-submenu-open, .dldh-menu-dark .dldh-menu-submenu-selected, .dldh-menu-dark .dldh-menu-submenu-title:hover {
+  color: #fff;
+  background-color: transparent;
+}
+.dldh-menu.dldh-menu-dark .dldh-menu-item-selected, .dldh-menu-submenu-popup.dldh-menu-dark .dldh-menu-item-selected {
+  background-color: #1890ff;
+}
+.dldh-menu-item > a {
+  display: block;
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+}
+.dldh-menu-dark .dldh-menu-item-selected > a, .dldh-menu-dark .dldh-menu-item-selected > a:hover {
+  color: #fff;
+}
+.dldh-menu-item .anticon, .dldh-menu-submenu-title .anticon {
+  min-width: 14px;
+  margin-right: 10px;
+  -webkit-transition: font-size 0.15s cubic-bezier(0.215, 0.61, 0.355, 1), margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  -o-transition: font-size 0.15s cubic-bezier(0.215, 0.61, 0.355, 1), margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: font-size 0.15s cubic-bezier(0.215, 0.61, 0.355, 1), margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
