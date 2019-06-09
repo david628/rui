@@ -3,3 +3,10 @@
   top: 0;
   left: 0;
 }
+.popup-contain {
+  width: 300px;
+  display: block;
+}
+.popup-contain-hidden {
+  display: none;
+}
