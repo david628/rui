@@ -78,7 +78,7 @@ class BasicLayout extends Component {
                     <div style={{ padding: 0 }}>
                       <div className="bg"><HeaderMenu/></div>
                     </div>
-                    <div style={{ margin: '24px 24px 0', height: '100%' }}>
+                    <div style={{ margin: '24px 24px', height: '100%' }}>
                       <Switch>
                         {
                           redirectData.map((route, index) => {

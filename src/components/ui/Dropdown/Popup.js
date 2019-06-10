@@ -5,10 +5,17 @@ class Popup extends Component {
   static propTypes = {
     getContainer: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
-    didUpdate: PropTypes.func
+    didUpdate: PropTypes.func,
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func,
+    onMouseDown: PropTypes.func,
+    onTouchStart: PropTypes.func
   };
   static defaultProps = {
-    
+    onMouseEnter: function() {},
+    onMouseLeave: function() {},
+    onMouseDown: function() {},
+    onTouchStart: function() {}
   };
   constructor(props) {
     super(props);
@@ -20,7 +27,7 @@ class Popup extends Component {
   componentWillReceiveProps(nextProps) {
 
   }
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     var didUpdate = this.props.didUpdate;
     if (didUpdate) {
       console.log('componentDidUpdate');	
@@ -41,9 +48,18 @@ class Popup extends Component {
   }
   render() {
   	if (this._container) {
+  	  const props = this.props;
   	  //this._container.className = this.props.visible ? 'popup-contain' : 'popup-contain popup-contain-hidden';
       return ReactDOM.createPortal(
-      	<div className={this.props.visible ? 'popup-contain' : 'popup-contain popup-contain-hidden'}>{this.props.children}</div>, 
+      	<div 
+      	  className={this.props.visible ? 'popup-contain' : 'popup-contain popup-contain-hidden'}
+      	  onMouseEnter={props.onMouseEnter}
+	      onMouseLeave={props.onMouseLeave}
+	      onMouseDown={props.onMouseDown}
+	      onTouchStart={props.onTouchStart}
+      	>
+      	  {this.props.children}
+      	</div>, 
       	this._container
       );
     }
