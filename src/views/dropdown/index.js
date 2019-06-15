@@ -39,7 +39,7 @@ class User extends Component {
   render() {
     return (
       <Dropdown menu={menu}>
-        <span style={{padding: '10px 20px', border: '1px solid #ddd'}}>button</span>
+        <span style={{position: 'relative', zIndex: 10, padding: '10px 20px', border: '1px solid #ddd'}}>button</span>
       </Dropdown>
     );
   }
