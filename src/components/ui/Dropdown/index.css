@@ -4,9 +4,28 @@
   left: 0;
 }
 .popup-contain {
-  width: 300px;
-  display: block;
+  /*visibility: hidden;	
+  opacity: 0;
+  transform: translateY(5px);
+  transition: transform .3s ease 0s,opacity .3s ease 0s;
+  -moz-transition: transform .3s ease 0s,opacity .3s ease 0s;
+  -webkit-transition: transform .3s ease 0s,opacity .3s ease 0s;
+  -o-transition: transform .3s ease 0s,opacity .3s ease 0s;*/
 }
 .popup-contain-hidden {
+  /*visibility: hidden;	
+  opacity: 0;
+  transform: translateY(5px);
+  transition: transform .3s ease 0s,opacity .3s ease 0s;
+  -moz-transition: transform .3s ease 0s,opacity .3s ease 0s;
+  -webkit-transition: transform .3s ease 0s,opacity .3s ease 0s;
+  -o-transition: transform .3s ease 0s,opacity .3s ease 0s;*/
   display: none;
+}
+.popup-contain-open {
+  /*visibility: visible;
+  opacity: 1;
+  transform: translate(0);
+  z-index: 1;*/
+  display: block;
 }

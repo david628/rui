@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Dropdown, { DropdownMenu } from '@/components/ui/Dropdown';
+import Dropdown from '@/components/ui/Dropdown';
 import Menu, { SubMenu, Item as MenuItem, Divider } from '@/components/ui/Menu';
 const menu = (
   <Menu>
@@ -38,7 +38,7 @@ class User extends Component {
   }
   render() {
     return (
-      <Dropdown menu={menu}>
+      <Dropdown menu={menu} trigger="click">
         <span style={{position: 'relative', zIndex: 10, padding: '10px 20px', border: '1px solid #ddd'}}>button</span>
       </Dropdown>
     );

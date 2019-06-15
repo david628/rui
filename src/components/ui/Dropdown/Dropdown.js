@@ -7,11 +7,22 @@ class Dropdown extends Component {
   static propTypes = {
     mouseEnterDelay: PropTypes.number,
     mouseLeaveDelay: PropTypes.number,
+    //trigger: PropTypes.string,
+    placement: PropTypes.string,
+    trigger: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
+    showTrigger: PropTypes.any,
+    hideTrigger: PropTypes.any,
     afterPopupVisibleChange: PropTypes.func
   };
   static defaultProps = {
-    mouseEnterDelay: 0.1,
+    mouseEnterDelay: 0,
     mouseLeaveDelay: 0.1,
+    trigger: [],
+    //action: ['contextMenu', 'hover', 'click'],
+    showTrigger: [],
+    hideTrigger: [],
+    //trigger: 'hover',
+    placement: 'tl-bl',
     afterPopupVisibleChange: () => {},
     getDocument: () => {
       return window.document;
@@ -42,53 +53,107 @@ class Dropdown extends Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
+    const props = this.props;
+    const state = this.state;
     this.prevVisible = prevState.visible;
+    if (state.visible) {
+      let currentDocument;
+      if (!this.clickOutsideHandler && (this.isClickToHide() || this.isContextMenuToShow())) {
+        currentDocument = props.getDocument();
+        this.clickOutsideHandler = Dldh.Event.bind(currentDocument, 'mousedown', this.onDocumentClick);
+      }
+      // always hide on mobile
+      if (!this.touchOutsideHandler) {
+        currentDocument = currentDocument || props.getDocument();
+        this.touchOutsideHandler = Dldh.Event.bind(currentDocument, 'touchstart', this.onDocumentClick);
+      }
+      // close popup when trigger type contains 'onContextMenu' and document is scrolling.
+      if (!this.contextMenuOutsideHandler1 && this.isContextMenuToShow()) {
+        currentDocument = currentDocument || props.getDocument();
+        this.contextMenuOutsideHandler1 = Dldh.Event.bind(currentDocument, 'scroll', this.onContextMenuClose);
+      }
+      // close popup when trigger type contains 'onContextMenu' and window is blur.
+      if (!this.contextMenuOutsideHandler2 && this.isContextMenuToShow()) {
+        this.contextMenuOutsideHandler2 = Dldh.Event.bind(window, 'blur', this.onContextMenuClose);
+      }
+      return;
+    }
+    this.clearOutsideHandler();
   }
   componentWillUnmount() {
-    console.log('out');
+    this.clearDelayTimer();
+    this.clearOutsideHandler();
+    clearTimeout(this.mouseDownTimeout);
   }
-  
+  clearOutsideHandler() {
+    const props = this.props;
+    let currentDocument;
+    if (this.clickOutsideHandler) {
+      currentDocument = props.getDocument();
+      this.clickOutsideHandler = Dldh.Event.unbind(currentDocument, 'mousedown', this.onDocumentClick)
+    }
+    if (this.touchOutsideHandler) {
+      currentDocument = currentDocument || props.getDocument();
+      this.touchOutsideHandler = Dldh.Event.unbind(currentDocument, 'touchstart', this.onDocumentClick);
+    }
+    if (this.contextMenuOutsideHandler1) {
+      currentDocument = currentDocument || props.getDocument();
+      this.contextMenuOutsideHandler1 = Dldh.Event.unbind(currentDocument, 'scroll', this.onContextMenuClose);
+    }
+    if (this.contextMenuOutsideHandler2) {
+      this.contextMenuOutsideHandler2 = Dldh.Event.unbind(window, 'blur', this.onContextMenuClose);
+    }
+  }
+  onDocumentClick = (event) => {
+    if (this.props.mask && !this.props.maskClosable) {
+      return;
+    }
+    const target = event.target;
+    const root = findDOMNode(this);
+    //if(!root.contains(target) && !findDOMNode(this._component).contains(target)) {
+    if(!root.contains(target) && !this.hasPopupMouseDown) {
+      this.setPopupVisible(false);
+    }
+  }
   onMouseEnter = (e) => {
-    console.log('onMouseEnter', e.currentTarget);
     const { mouseEnterDelay } = this.props;
     this.delaySetPopupVisible(true, mouseEnterDelay, mouseEnterDelay ? null : e);
-  };
+  }
   onMouseLeave = (e) => {
-    console.log('onMouseLeave', e.currentTarget);
     this.delaySetPopupVisible(false, this.props.mouseLeaveDelay);
-  };
+  }
   onClick = (e) => {
-    //console.log(findDOMNode(this));
-    //Dldh.Css.alignTo(this.body, findDOMNode(this), 'tl-bl');
+    e.preventDefault();
+    if (this.isClickToHide() && this.isClickToShow()) {
+      this.setPopupVisible(!this.state.visible, e);
+    }
   }
   onMouseDown = (e) => {
-    console.log('onMouseDown');
-    this.preClickTime = Date.now();
   }
   onTouchStart = (e) => {
-    console.log('onTouchStart');
-    this.preTouchTime = Date.now();
   }
-  renderChildren = (child, i) => {
-    const childProps = child.props;
-    const props = this.props;
-    const state = props.state;
-    //console.log(childProps);
-    const newChildProps = {};
-    newChildProps.onMouseEnter = (e) => {
-      this.onMouseEnter(e);
+  onFocus = (e) => {
+    this.clearDelayTimer();
+    if (this.isFocusToShow()) {
+      this.delaySetPopupVisible(true, this.props.focusDelay);
     }
-    newChildProps.onMouseLeave = (e) => {
-      this.onMouseLeave(e);
+  }
+  onBlur = (e) => {
+    this.clearDelayTimer();
+    if (this.isBlurToHide()) {
+      this.delaySetPopupVisible(false, this.props.blurDelay);
     }
-    newChildProps.onClick = (e) => {
-      this.onClick(e);
+  }
+  onContextMenu = (e) => {
+    e.preventDefault();
+    console.log('onContextMenu');
+    this.setPopupVisible(true, e);
+  }
+  onContextMenuClose = () => {
+    if (this.isContextMenuToShow()) {
+      this.setPopupVisible(false);
     }
-    newChildProps.onMouseDown = this.onMouseDown;
-    newChildProps.onTouchStart = this.onTouchStart;
-    //console.log(React.cloneElement(child, newChildProps));
-    return React.cloneElement(child, newChildProps);
-  };
+  }
   getContainer = () => {
     const { props } = this;
     const popupContainer = document.createElement('div');
@@ -105,7 +170,7 @@ class Dropdown extends Component {
       this.props.afterPopupVisibleChange(this.state.visible);
     }
     if(this.state.visible) {
-      Dldh.Css.alignTo(findDOMNode(this._component), findDOMNode(this), 'tl-bl');
+      Dldh.Css.alignTo(findDOMNode(this._component), findDOMNode(this), this.props.placement);
     }
   }
   savePopup = (node) => {
@@ -132,7 +197,6 @@ class Dropdown extends Component {
   setPopupVisible(visible) {
     //const { alignPoint } = this.props;
     this.clearDelayTimer();
-    console.log(!('visible' in this.props));
     if (this.state.visible !== visible) {
       if (!('visible' in this.props)) {
         this.setState({ visible });
@@ -144,37 +208,91 @@ class Dropdown extends Component {
     //}
   }
   onPopupMouseEnter = (e) => {
-    console.log('onPopupMouseEnter...');
     this.clearDelayTimer();
   }
   onPopupMouseLeave = (e) => {
-    console.log('onPopupMouseLeave...');
-    console.log(e.relatedTarget);
     //if (e.relatedTarget && !e.relatedTarget.setTimeout && this._component && this._component.getPopupDomNode && contains(this._component.getPopupDomNode(), e.relatedTarget)) {
       //return;
     //}
     this.delaySetPopupVisible(false, this.props.mouseLeaveDelay);
   }
   onPopupMouseDown = (e) => {
-    console.log('onPopupMouseDown...');
+    this.hasPopupMouseDown = true;
+    clearTimeout(this.mouseDownTimeout);
+    this.mouseDownTimeout = setTimeout(() => {
+      this.hasPopupMouseDown = false;
+    }, 0);
   }
+
+  isClickToShow() {
+    const { trigger, showTrigger } = this.props;
+    return trigger.indexOf('click') !== -1 || showTrigger.indexOf('click') !== -1;
+  }
+  isContextMenuToShow() {
+    const { trigger, showTrigger } = this.props;
+    return trigger.indexOf('contextMenu') !== -1 || showTrigger.indexOf('contextMenu') !== -1;
+  }
+  isClickToHide() {
+    const { trigger, hideTrigger } = this.props;
+    return trigger.indexOf('click') !== -1 || hideTrigger.indexOf('click') !== -1;
+  }
+  isMouseEnterToShow() {
+    const { trigger, showTrigger } = this.props;
+    return trigger.indexOf('hover') !== -1 || showTrigger.indexOf('mouseEnter') !== -1;
+  }
+  isMouseLeaveToHide() {
+    const { trigger, hideTrigger } = this.props;
+    return trigger.indexOf('hover') !== -1 || hideTrigger.indexOf('mouseLeave') !== -1;
+  }
+  isFocusToShow() {
+    const { trigger, showTrigger } = this.props;
+    return trigger.indexOf('focus') !== -1 || showTrigger.indexOf('focus') !== -1;
+  }
+  isBlurToHide() {
+    const { trigger, hideTrigger } = this.props;
+    return trigger.indexOf('focus') !== -1 || hideTrigger.indexOf('blur') !== -1;
+  }
+  renderChildren = (child, i) => {
+    const childProps = child.props;
+    const props = this.props;
+    const state = props.state;
+    const newChildProps = {};
+    if (this.isContextMenuToShow()) {
+      newChildProps.onContextMenu = this.onContextMenu;
+    }
+    if (this.isClickToHide() || this.isClickToShow()) {
+      newChildProps.onClick = this.onClick;
+      newChildProps.onMouseDown = this.onMouseDown;
+      newChildProps.onTouchStart = this.onTouchStart;
+    }
+    if (this.isMouseEnterToShow()) {
+      newChildProps.onMouseEnter = this.onMouseEnter;
+    }
+    if (this.isMouseLeaveToHide()) {
+      newChildProps.onMouseLeave = this.onMouseLeave;
+    }
+    if (this.isFocusToShow() || this.isBlurToHide()) {
+      newChildProps.onFocus = this.onFocus;
+      newChildProps.onBlur = this.onBlur;
+    }
+    return React.cloneElement(child, newChildProps);
+  };
   render() {
     const { visible } = this.state;
-    const mouseProps = {};
-    //if (this.isMouseEnterToShow()) {
-      mouseProps.onMouseEnter = this.onPopupMouseEnter;
-    //}
-    //if (this.isMouseLeaveToHide()) {
-      mouseProps.onMouseLeave = this.onPopupMouseLeave;
-    //}
-    mouseProps.onMouseDown = this.onPopupMouseDown;
-    mouseProps.onTouchStart = this.onPopupMouseDown;
+    const popupProps = {};
+    if (this.isMouseEnterToShow()) {
+      popupProps.onMouseEnter = this.onPopupMouseEnter;
+    }
+    if (this.isMouseLeaveToHide()) {
+      popupProps.onMouseLeave = this.onPopupMouseLeave;
+    }
+    popupProps.onMouseDown = this.onPopupMouseDown;
+    popupProps.onTouchStart = this.onPopupMouseDown;
     let popup;
-    console.log('render', visible);
     if(visible || this._component) {
       popup = (
         <Popup
-          {...mouseProps}
+          {...popupProps}
           visible={visible}
           getContainer={this.getContainer}
           didUpdate={this.handlePortalUpdate}

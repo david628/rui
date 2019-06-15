@@ -488,4 +488,28 @@ Dldh.lib.Region.getRegion = function(el) {
 //   this.y = this.top = this.bottom = this[1] = F
 // };
 // Dldh.lib.Point.prototype = new Dldh.lib.Region();
+Dldh.Event = {
+  bind: function(target, eventType, wrapCallback, option) {
+    if(target.addEventListener) {
+      target.addEventListener(eventType, wrapCallback, option || false);
+    } else if(target.attachEvent) {
+      target.attachEvent(`on${eventType}`, wrapCallback);
+    }
+    return true;
+  },
+  unbind: function(target, eventType, wrapCallback, option) {
+    let useCapture = false;
+    if (typeof option === 'object') {
+      useCapture = option.capture || false;
+    } else if (typeof option === 'boolean') {
+      useCapture = option;
+    }
+    if(target.addEventListener) {
+      target.removeEventListener(eventType, wrapCallback, useCapture);
+    } else if(target.attachEvent) {
+      target.detachEvent(`on${eventType}`, wrapCallback);
+    }
+    return null;
+  }
+};
 export default Dldh;
