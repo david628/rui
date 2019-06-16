@@ -55,6 +55,7 @@ class Dropdown extends Component {
   componentDidUpdate(prevProps, prevState) {
     const props = this.props;
     const state = this.state;
+    //const listRoot = findDOMNode(this._component);
     this.prevVisible = prevState.visible;
     if (state.visible) {
       let currentDocument;
@@ -76,8 +77,16 @@ class Dropdown extends Component {
       if (!this.contextMenuOutsideHandler2 && this.isContextMenuToShow()) {
         this.contextMenuOutsideHandler2 = Dldh.Event.bind(window, 'blur', this.onContextMenuClose);
       }
+      // if(listRoot) {
+      //   Dldh.Css.addClass(listRoot, 'popup-contain-open-ative');
+      //   Dldh.Css.removeClass(listRoot, 'popup-contain-hidden-ative');
+      // }
       return;
     }
+    // if(listRoot) {
+    //   Dldh.Css.addClass(listRoot, 'popup-contain-hidden-ative');
+    //   Dldh.Css.removeClass(listRoot, 'popup-contain-open-ative');
+    // }
     this.clearOutsideHandler();
   }
   componentWillUnmount() {

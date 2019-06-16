@@ -29,3 +29,15 @@
   z-index: 1;*/
   display: block;
 }
+.popup-contain-open-ative {
+  opacity: 1;
+  transform: translate(0);
+}
+.popup-contain-hidden-ative {
+  opacity: 0;
+  transform: translateY(5px);
+  transition: transform .3s ease 0s,opacity .3s ease 0s;
+  -moz-transition: transform .3s ease 0s,opacity .3s ease 0s;
+  -webkit-transition: transform .3s ease 0s,opacity .3s ease 0s;
+  -o-transition: transform .3s ease 0s,opacity .3s ease 0s;
+}

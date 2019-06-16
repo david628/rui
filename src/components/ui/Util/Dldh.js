@@ -32,6 +32,31 @@ var Dldh = {
       el = Dldh.getDom(el);
       return className && (' ' + el.className + ' ').indexOf(' ' + className + ' ') != -1;
     },
+    addClass : function(el, className){
+      if(className instanceof Array) {
+        for(var i = 0, len = className.length; i < len; i++) {
+          this.addClass(el, className[i]);
+        }
+      } else {
+        if(className && !this.hasClass(el, className)) {
+          el.className = el.className + " " + className;
+        }
+      }
+    },
+    removeClass : function(el, className) {
+      if(!className || !el.className) {
+        return;
+      }
+      if(className instanceof Array) {
+        for(var i = 0, len = className.length; i < len; i++) {
+          this.removeClass(el, className[i]);
+        }
+      } else {
+        if(this.hasClass(el, className)) {
+          el.className = (' ' + el.className + ' ').replace(' ' + className + ' ', ' ');
+        }
+      }
+    },
     getStyle: function(dom, attr){
       return dom.currentStyle ? dom.currentStyle[attr] : getComputedStyle(dom, false)[attr];
     },

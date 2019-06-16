@@ -28,7 +28,7 @@ class HeaderMenu extends Component {
         width: '70px',
         backgroundColor: '#fff',
         borderRadius: '4px',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'
       }}>
         <a href="javascript:;" onClick={this.onMenuClick} style={{lineHeight: '60px',padding: '0 10px',display: 'inline-block',textDecoration: 'none',color: 'rgba(0, 0, 0, 0.65)'}}>退出</a>
       </div>

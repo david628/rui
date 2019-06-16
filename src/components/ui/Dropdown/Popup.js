@@ -22,7 +22,7 @@ class Popup extends Component {
   }
   componentDidMount() {
   	this.createContainer();
-  	console.log('start');
+  	//console.log('start');
   }
   componentWillReceiveProps(nextProps) {
 
@@ -30,7 +30,7 @@ class Popup extends Component {
   componentDidUpdate(prevProps, prevState) {
     var didUpdate = this.props.didUpdate;
     if (didUpdate) {
-      console.log('componentDidUpdate');	
+      //console.log('componentDidUpdate');	
       didUpdate(prevProps);
     }
   }
