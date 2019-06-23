@@ -16,10 +16,85 @@
   	padding: 0;
   	overflow: hidden;
   }
+  #id-legend, #id-control, #id-zoom {
+  	padding: 10px;
+  	font-size: 14px;
+  	border-radius: 4px;
+  	background: #fff;
+  }
+  .setting_circle {
+  	display: inline-block;
+  	cursor: pointer;
+  }
+  .setting_circle_inner {
+  	width: 12px;
+  	height: 12px;
+  	margin: 10px 0 0 10px;
+  	border-radius: 50%;
+  	display: inline-block;
+  	background-color: #666;
+  }
+  .color0 {
+  	background-color: rgb(165, 171, 182);
+  }
+  .color1 {
+  	background-color: rgb(104, 189, 246);
+  }
+  .color2 {
+  	background-color: rgb(109, 206, 158);
+  }
+  .color3 {
+  	background-color: rgb(255, 117, 110);
+  }
+  .color4 {
+  	background-color: rgb(222, 155, 249);
+  }
+  .color5 {
+  	background-color: rgb(251, 149, 175);
+  }
+  .color6 {
+  	background-color: rgb(255, 216, 110);
+  }
   </style>
 </head>
 <body>
+  <div id="id-zoom" style="position: absolute;right: 460px;top: 10px;z-index: 10;">
+  	<button onclick="changeZoom(1)">+</button>
+  	<button onclick="changeZoom(-1)">-</button>
+  	<button onclick="changeZoom(0)">1:1</button>
+  </div>
+  <div id="id-legend" style="position: absolute;right: 70px;top: 10px;z-index: 10;">
+  	<select onchange="legend_handle(this)">
+  	  <option value="">全部</option>
+  	  <option value="AAA">AAA(red)</option>
+  	  <option value="BBB">BBB(green)</option>
+  	  <option value="CCC">CCC(gold)</option>
+  	  <option value="DDD">DDD(blue)</option>
+  	</select>
+  </div>
+  <div id="id-control" style="position: absolute;right: 200px;top: 10px;z-index: 10;">
+  	<div id="id-label-title"></div>
+  	<div>
+  	  <span>颜色：</span>
+  	  <div class="setting_circle" onclick="changeColor('rgb(165, 171, 182)')"><div class="setting_circle_inner color0"></div></div>
+  	  <div class="setting_circle" onclick="changeColor('rgb(104, 189, 246)')"><div class="setting_circle_inner color1"></div></div>
+  	  <div class="setting_circle" onclick="changeColor('rgb(109, 206, 158)')"><div class="setting_circle_inner color2"></div></div>
+  	  <div class="setting_circle" onclick="changeColor('rgb(255, 117, 110)')"><div class="setting_circle_inner color3"></div></div>
+  	  <div class="setting_circle" onclick="changeColor('rgb(222, 155, 249)')"><div class="setting_circle_inner color4"></div></div>
+  	  <div class="setting_circle" onclick="changeColor('rgb(251, 149, 175)')"><div class="setting_circle_inner color5"></div></div>
+  	  <div class="setting_circle" onclick="changeColor('rgb(255, 216, 110)')"><div class="setting_circle_inner color6"></div></div>
+  	</div>
+  	<div>
+  	  <span>大小：</span>
+  	  <div class="setting_circle" onclick="changeSize(12)"><div class="setting_circle_inner"></div></div>
+  	  <div class="setting_circle" onclick="changeSize(14)"><div class="setting_circle_inner" style="width: 14px;height: 14px;"></div></div>
+  	  <div class="setting_circle" onclick="changeSize(16)"><div class="setting_circle_inner" style="width: 16px;height: 16px;"></div></div>
+  	  <div class="setting_circle" onclick="changeSize(18)"><div class="setting_circle_inner" style="width: 18px;height: 18px;"></div></div>
+  	  <div class="setting_circle" onclick="changeSize(20)"><div class="setting_circle_inner" style="width: 20px;height: 20px;"></div></div>
+  	</div>
+  </div>
   <div id="id-test" style="width: 100%;height: 100%;"></div>
 </body>
-<script type="text/javascript" src="main.js"></script>
+<script type="text/javascript" src="graph3d.js"></script>
+<script type="text/javascript" src="index.js"></script>
 </html>
