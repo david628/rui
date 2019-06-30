@@ -144,7 +144,7 @@ class SubMenu extends Component {
         <PopupMenu
           level={props.level + 1}
           inlineIndent={props.inlineIndent}
-          subClassName={'dldh-menu-sub'}
+          subClassName={'dldh-menu-sub dldh-menu-inline'}
           isOpen={isOpen}
           hiddenClassName={hiddenClassName}
           state={props.state}

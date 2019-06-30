@@ -38,7 +38,7 @@ class User extends Component {
   }
   render() {
     return (
-      <Dropdown menu={menu} trigger="click">
+      <Dropdown menu={menu} trigger="hover">
         <span style={{position: 'relative', zIndex: 10, padding: '10px 20px', border: '1px solid #ddd'}}>button</span>
       </Dropdown>
     );

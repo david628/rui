@@ -179,7 +179,10 @@ class Dropdown extends Component {
       this.props.afterPopupVisibleChange(this.state.visible);
     }
     if(this.state.visible) {
-      Dldh.Css.alignTo(findDOMNode(this._component), findDOMNode(this), this.props.placement);
+      const node = findDOMNode(this);
+      const listNode = findDOMNode(this._component);
+      listNode.style.width = node.offsetWidth + 'px';
+      Dldh.Css.alignTo(listNode, node, this.props.placement);
     }
   }
   savePopup = (node) => {

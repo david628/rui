@@ -164,7 +164,7 @@ class Menu extends Component {
     props = {
       ...props,
       state,
-      subClassName: 'dldh-menu-dark',
+      subClassName: 'dldh-menu-inline dldh-menu-dark',
       onClick: this.onClick,
       onOpenChange: this.onOpenChange,
       onDeselect: this.onDeselect,

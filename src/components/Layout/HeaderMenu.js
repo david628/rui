@@ -30,13 +30,13 @@ class HeaderMenu extends Component {
         borderRadius: '4px',
         boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'
       }}>
-        <a href="javascript:;" onClick={this.onMenuClick} style={{lineHeight: '60px',padding: '0 10px',display: 'inline-block',textDecoration: 'none',color: 'rgba(0, 0, 0, 0.65)'}}>退出</a>
+        <a href="javascript:;" onClick={this.onMenuClick} style={{fontSize: '13px', lineHeight: '60px',padding: '0 10px',display: 'inline-block',textDecoration: 'none',color: 'rgba(0, 0, 0, 0.65)'}}>退出</a>
       </div>
     );
     return (
       <div className="header-menu">
         <div style={{position: 'absolute',right: 0,top: '20px',padding: '0 20px',height: '100%'}}>
-          <Dropdown menu={triggerList} trigger="click"><span style={{padding: '0 10px'}}>{ user && user.userName ? user.userName : "登录" }</span></Dropdown>
+          <Dropdown menu={triggerList} trigger="hover"><span style={{padding: '0 10px'}}>{ user && user.userName ? user.userName : "登录" }</span></Dropdown>
         </div>
       </div>
     );

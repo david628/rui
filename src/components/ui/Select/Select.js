@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Dropdown from '@/components/ui/Dropdown';
+import Menu, { Item as MenuItem, ItemGroup as MenuItemGroup } from '@/components/ui/Menu';
 class Select extends Component {
   static propTypes = {
   };
@@ -18,20 +19,70 @@ class Select extends Component {
   componentDidUpdate() {
 
   }
+  getValuePropValue(child) {
+    if (!child) {
+      return null;
+    }
+    const props = child.props;
+    if ('value' in props) {
+      return props.value;
+    }
+    if (child.key) {
+      return child.key;
+    }
+    if (child.type && child.type.isSelectOptGroup && props.label) {
+      return props.label;
+    }
+    //throw new Error(`Need at least a key or a value or a label (only for OptGroup) for ${child}`);
+  }
+
+  getOptions = (children, childrenKeys, menuItems) => {
+    let options = [];
+    React.Children.forEach(children, child => {
+      if (!child) {
+        return;
+      }
+      if (child.type.isSelectOptGroup) {
+        let label = child.props.label;
+        let key = child.key;
+        if (!key && typeof label === 'string') {
+          key = label;
+        } else if (!label && key) {
+          label = key;
+        }
+        const innerItems = this.getOptions(
+          child.props.children,
+          childrenKeys,
+          menuItems
+        );
+        if (innerItems.length) {
+          options.push(
+            <MenuItemGroup key={key} title={label}>
+              {innerItems}
+            </MenuItemGroup>
+          );
+        }
+      } else {
+        const childValue = this.getValuePropValue(child);
+        const menuItem = (
+          <MenuItem
+            value={childValue}
+            key={childValue}
+            role="option"
+            {...child.props}
+          />
+        );
+        menuItems.push(menuItem);
+        options.push(menuItem);
+      }
+    });
+    return options;
+  };
   render() {
+    const menuItems = [];
+    const childrenKeys = [];
     const menu = (
-      <div className="dldh-select-dropdown" style={{width: '120px'}}>
-        <div>
-          <ul className="dldh-select-dropdown-menu">
-            <li className="dldh-select-dropdown-menu-item">0</li>
-            <li className="dldh-select-dropdown-menu-item">1</li>
-            <li className="dldh-select-dropdown-menu-item">2</li>
-            <li className="dldh-select-dropdown-menu-item">3</li>
-            <li className="dldh-select-dropdown-menu-item">4</li>
-            <li className="dldh-select-dropdown-menu-item">5</li>
-          </ul>
-        </div>
-      </div>
+      <Menu>{this.getOptions(this.props.children, childrenKeys, menuItems)}</Menu>
     );
     return (
       <Dropdown menu={menu} trigger={["click"]}>

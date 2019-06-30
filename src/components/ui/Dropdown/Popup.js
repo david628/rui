@@ -52,11 +52,11 @@ class Popup extends Component {
   	  //this._container.className = this.props.visible ? 'popup-contain' : 'popup-contain popup-contain-hidden';
       return ReactDOM.createPortal(
       	<div 
-      	  className={this.props.visible ? 'popup-contain popup-contain-open' : 'popup-contain popup-contain-hidden'}
+      	  className={this.props.visible ? 'popup-contain popup-contain-open slide-up-enter' : 'popup-contain popup-contain-hidden slide-up-leave'}
       	  onMouseEnter={props.onMouseEnter}
-	      onMouseLeave={props.onMouseLeave}
-	      onMouseDown={props.onMouseDown}
-	      onTouchStart={props.onTouchStart}
+	        onMouseLeave={props.onMouseLeave}
+	        onMouseDown={props.onMouseDown}
+	        onTouchStart={props.onTouchStart}
       	>
       	  {this.props.children}
       	</div>, 
