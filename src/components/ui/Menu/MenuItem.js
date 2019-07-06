@@ -4,6 +4,7 @@ class MenuItem extends Component {
   static propTypes = {
     // attribute: PropTypes.object,
     // rootPrefixCls: PropTypes.string,
+    sprefix: PropTypes.string,
     eventKey: PropTypes.string,
     active: PropTypes.bool,
     // children: PropTypes.any,
@@ -60,15 +61,16 @@ class MenuItem extends Component {
   };
   render() {
     const props = { ...this.props };
-    let className = ["dldh-menu-item"];
+    let sprefix = props.sprefix;
+    let className = [`${sprefix}-menu-item`];
     if(props.isSelected) {
-      className.push(" dldh-menu-item-selected");
+      className.push(` ${sprefix}-menu-item-selected`);
     }
     if(!props.disabled && props.active) {
-      className.push(" dldh-menu-submenu-active");
+      className.push(` ${sprefix}-menu-submenu-active`);
     }
     if(props.disabled) {
-      className.push(" dldh-menu-submenu-disabled");
+        className.push(` ${sprefix}-menu-submenu-disabled`);
     }
     className = className.join('');
     let attrs = {

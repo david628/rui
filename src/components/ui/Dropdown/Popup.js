@@ -3,6 +3,7 @@ import ReactDOM, {findDOMNode, createPortal} from 'react-dom';
 import PropTypes from 'prop-types';
 class Popup extends Component {
   static propTypes = {
+    sprefix: PropTypes.string,
     getContainer: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
     didUpdate: PropTypes.func,
@@ -49,10 +50,16 @@ class Popup extends Component {
   render() {
   	if (this._container) {
   	  const props = this.props;
+      let sprefix = props.sprefix, className;
+      if(this.props.visible) {
+        className = `popup-contain popup-contain-open ${sprefix}-dropdown slide-up-enter`;
+      } else {
+        className = `popup-contain popup-contain-hidden ${sprefix}-dropdown slide-up-leave`;
+      }
   	  //this._container.className = this.props.visible ? 'popup-contain' : 'popup-contain popup-contain-hidden';
       return ReactDOM.createPortal(
       	<div 
-      	  className={this.props.visible ? 'popup-contain popup-contain-open slide-up-enter' : 'popup-contain popup-contain-hidden slide-up-leave'}
+      	  className={className}
       	  onMouseEnter={props.onMouseEnter}
 	        onMouseLeave={props.onMouseLeave}
 	        onMouseDown={props.onMouseDown}

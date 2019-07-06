@@ -5,6 +5,7 @@ import Dldh from '@/components/ui/Util/Dldh';
 import Popup from './Popup';
 class Dropdown extends Component {
   static propTypes = {
+    sprefix: PropTypes.string,
     mouseEnterDelay: PropTypes.number,
     mouseLeaveDelay: PropTypes.number,
     //trigger: PropTypes.string,
@@ -15,6 +16,7 @@ class Dropdown extends Component {
     afterPopupVisibleChange: PropTypes.func
   };
   static defaultProps = {
+    sprefix: 'dldh',
     mouseEnterDelay: 0,
     mouseLeaveDelay: 0.1,
     trigger: [],
@@ -291,7 +293,9 @@ class Dropdown extends Component {
   };
   render() {
     const { visible } = this.state;
-    const popupProps = {};
+    const popupProps = {
+      sprefix: this.props.sprefix
+    };
     if (this.isMouseEnterToShow()) {
       popupProps.onMouseEnter = this.onPopupMouseEnter;
     }

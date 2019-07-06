@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import PopupMenu from './PopupMenu';
 class MenuItemGroup extends Component {
   static propTypes = {
+    sprefix: PropTypes.string,
     renderMenuItem: PropTypes.func,
     index: PropTypes.number,
     className: PropTypes.string,
@@ -18,13 +19,15 @@ class MenuItemGroup extends Component {
   }
   render() {
     const { ...props } = this.props;
-    const titleClassName = `dldh-menu-item-group-title`;
-    const listClassName = `dldh-menu-item-group-list`;
+    const sprefix = props.sprefix;
+    const titleClassName = `${sprefix}-menu-item-group-title`;
+    const listClassName = `${sprefix}-menu-item-group-list`;
+    const className = `${sprefix}-menu-item-group`;
     const { title, children } = props;
     // menuAllProps.forEach(key => delete props[key]);
     // delete props.onClick;
     return (
-      <li className="dldh-menu-item-group">
+      <li className={className}>
         <div
           className={titleClassName}
           title={typeof title === 'string' ? title : undefined}

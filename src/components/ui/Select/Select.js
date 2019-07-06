@@ -17,7 +17,7 @@ class Select extends Component {
   componentWillReceiveProps(nextProps) {
   }
   componentDidUpdate() {
-
+//R_@WjQF692$E#T@H
   }
   getValuePropValue(child) {
     if (!child) {
@@ -81,11 +81,16 @@ class Select extends Component {
   render() {
     const menuItems = [];
     const childrenKeys = [];
+    const sprefix = `dldh-select`;
     const menu = (
-      <Menu>{this.getOptions(this.props.children, childrenKeys, menuItems)}</Menu>
+      <Menu
+        sprefix={`${sprefix}-dropdown`}
+      >
+        {this.getOptions(this.props.children, childrenKeys, menuItems)}
+      </Menu>
     );
     return (
-      <Dropdown menu={menu} trigger={["click"]}>
+      <Dropdown sprefix={sprefix} menu={menu} trigger={["click"]}>
         <div className="dldh-select">
           <div className="dldh-select-selection ant-select-selection--multiple">
             <div className="dldh-select-selection__rendered">

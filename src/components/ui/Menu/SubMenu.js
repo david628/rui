@@ -6,6 +6,7 @@ class SubMenu extends Component {
     // parentMenu: PropTypes.object,
     // title: PropTypes.node,
     // children: PropTypes.any,
+    sprefix: PropTypes.string,
     selectedKeys: PropTypes.array,
     openKeys: PropTypes.array,
     onClick: PropTypes.func,
@@ -114,6 +115,10 @@ class SubMenu extends Component {
     const style = {
       ...props.style,
     };
+    const sprefix = props.sprefix;
+    const className = `${sprefix}-menu-submenu`;
+    const subClassName = `${sprefix}-menu-sub ${sprefix}-menu-inline`;
+    const titleClassName = `${sprefix}-menu-submenu-title`;
     //if (props.mode === 'inline') {
       style.paddingLeft = props.inlineIndent * props.level;
     //}
@@ -125,12 +130,12 @@ class SubMenu extends Component {
       hiddenClassName = "";
       isOpen = true;
     } else {
-      hiddenClassName = "dldh-menu-hidden";
+      hiddenClassName = `${sprefix}-menu-hidden`;
       isOpen = false;
     }
     const title = (
       <div
-        className="dldh-menu-submenu-title"
+        className={titleClassName}
         style={style}
         title={typeof props.title === 'string' ? props.title : undefined}
         onClick={this.onTitleClick}
@@ -139,12 +144,13 @@ class SubMenu extends Component {
       </div>
     );
     return (
-      <li className="dldh-menu-submenu">
+      <li className={className}>
         {title}
         <PopupMenu
+          sprefix={props.sprefix}
           level={props.level + 1}
           inlineIndent={props.inlineIndent}
-          subClassName={'dldh-menu-sub dldh-menu-inline'}
+          subClassName={subClassName}
           isOpen={isOpen}
           hiddenClassName={hiddenClassName}
           state={props.state}

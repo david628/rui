@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import PopupMenu from './PopupMenu';
 class Menu extends Component {
   static propTypes = {
+    sprefix: PropTypes.string,
     defaultSelectedKeys: PropTypes.arrayOf(PropTypes.string),
     // defaultActiveFirst: PropTypes.bool,
     selectedKeys: PropTypes.arrayOf(PropTypes.string),
@@ -35,6 +36,7 @@ class Menu extends Component {
   };
   static defaultProps = {
     level: 1,
+    sprefix: 'dldh',
     selectable: true,
     onClick: function() {},
     onSelect: function() {},
@@ -161,10 +163,11 @@ class Menu extends Component {
   render() {
     let { ...props } = this.props;
     let { ...state } = this.state;
+    let sprefix = props.sprefix;
     props = {
       ...props,
       state,
-      subClassName: 'dldh-menu-inline dldh-menu-dark',
+      subClassName: `${sprefix}-menu-inline ${sprefix}-menu-dark`,
       onClick: this.onClick,
       onOpenChange: this.onOpenChange,
       onDeselect: this.onDeselect,

@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 class PopupMenu extends Component {
+  static propTypes = {
+    sprefix: PropTypes.string
+  };
   static defaultProps = {
     className: '',
     mode: 'vertical',
@@ -54,7 +58,9 @@ class PopupMenu extends Component {
     const childProps = child.props;
     const key = child.key;
     const isActive = key === state.activeKey;
+
     const newChildProps = {
+      sprefix: props.sprefix,
       mode: childProps.mode || props.mode,
       level: props.level,
       state: props.state,
@@ -99,7 +105,8 @@ class PopupMenu extends Component {
   };
   render() {
     let { ...props } = this.props;
-    let className = ["dldh-menu"];
+    const sprefix = props.sprefix;
+    let className = [`${sprefix}-menu`];
     if(props.subClassName !== '') {
       className.push(props.subClassName);
     }
