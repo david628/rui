@@ -10,6 +10,11 @@ class Select extends Component {
   };
   constructor(props) {
     super(props);
+    this.state = {
+      open: false,
+      inputValue: '',
+      value: ''
+    }
   }
   componentDidMount() {
 
@@ -78,10 +83,34 @@ class Select extends Component {
     });
     return options;
   };
+  setInputValue(inputValue) {
+    if (inputValue !== this.state.inputValue) {
+      this.setState(
+        {
+          inputValue
+        }
+      );
+    }
+  }
+  onInputChange = (event) => {
+    const v = event.target.value;
+    this.setInputValue(v);
+    this.setState({
+      open: true,
+    });
+  }
   render() {
+    const { props, state } = this;
     const menuItems = [];
     const childrenKeys = [];
     const sprefix = `dldh-select`;
+    let hidden = false;
+    if (state.inputValue) {
+      hidden = true;
+    }
+    if (state.value.length) {
+      hidden = true;
+    }
     const menu = (
       <Menu
         sprefix={`${sprefix}-dropdown`}
@@ -94,11 +123,11 @@ class Select extends Component {
         <div className="dldh-select">
           <div className="dldh-select-selection ant-select-selection--multiple">
             <div className="dldh-select-selection__rendered">
-              <div className="dldh-select-selection__placeholder" unselectable="unselectable" style={{display: 'block'}}>Please select</div>
+              <div className="dldh-select-selection__placeholder" unselectable="unselectable" style={{display: hidden ? 'none' : 'block'}}>Please select</div>
               <ul className="dldh-select-ul">
                 <li className="dldh-select-search dldh-select-search--inline">
                   <div className="dldh-select-search__field__wrap">
-                    <input className="dldh-select-search__field"/>
+                    <input className="dldh-select-search__field" onChange={this.onInputChange}/>
                     <span className="dldh-select-search__field__mirror"></span>
                   </div>
                 </li>
