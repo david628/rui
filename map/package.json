@@ -14,7 +14,7 @@
     "echarts-liquidfill": "^1.0.5",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
-    "lodash": "4.17.10",
+    "lodash": "4.17.13",
     "mapv": "^2.0.40",
     "popper.js": "^1.14.3"
   },
