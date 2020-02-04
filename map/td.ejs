@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <style type="text/css">
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        button {
+            padding: 10px 60px 10px 20px;
+            border-radius: 2px;
+            border: 0;
+            background: #fff;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            width: 120px;
+            line-height: 20px;
+        }
+        button::hover {
+            background: #eee;
+        }
+        button em {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            padding: 10px;
+            background: #f96666;
+            color: #fff;
+            font-style: normal;
+        }
+        .cls-map {
+            width: 100%;
+            height: 100%;
+        }
+        .cls-map-col {
+            width: 33.3333333%;
+            height: 600px;
+            float: left;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .cls-map-col .cls-map-col-inner {
+            width: 100%;
+            height: 100%;
+        }
+        .cls-oper {
+            height: 330px;
+            position: absolute;
+            left: 0;
+            right: 0;
+            z-index: 30000;
+            background: rgba(0, 0, 0, 0.5);
+            bottom: 0;
+            padding: 20px;
+            overflow: auto;
+        }
+        .sub-com button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="cls-oper">
+        <button id="id-com" value="point">Point<em>+</em></button>
+        <div id="id-sub-com" class="sub-com"></div>
+    </div>
+    <div class="cls-map">
+        <div class="cls-map-col">
+            <div id="id-tmap" class="cls-map-col-inner"></div>
+        </div>
+        <div class="cls-map-col">
+            <div id="id-bmap" class="cls-map-col-inner"></div>
+        </div>
+        <div class="cls-map-col">
+            <div id="id-amap" class="cls-map-col-inner"></div>
+        </div>
+    </div>
+<!--    <div id="id-test" style="display: none;"></div>-->
+<!--    <script type="text/javascript" src="http://api.tianditu.gov.cn/api?v=4.0&tk=aaa8362faf35c4b8489e09d16000fd6f"></script>-->
+<!--    <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>-->
+    <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=1XjLLEhZhQNUzd93EjU5nOGQ"></script>
+    <script type="text/javascript" src="lib/getscript.js"></script>
+    <script type="text/javascript" src="lib/maps.js"></script>
+</body>
+</html>
