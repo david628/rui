@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style type="text/css">
+		html {
+			width: 100%;
+			height: 100%;
+		}
+
+		body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			/* background: -webkit-radial-gradient(#1a5970 0%, #000000 100%);
+      background: radial-gradient(#1a5970 0%, #000000 100%); */
+		}
+
+		.clearfix {
+			*zoom: 1;
+		}
+
+		.clearfix:after {
+			content: ".";
+			display: block;
+			height: 0px;
+			font-size: 0px;
+			clear: both;
+			visibility: hidden;
+		}
+	</style>
+</head>
+
+<body>
+	<script type="text/javascript">
+
+		var averageOfLevels = function (root) {
+			if(root === null || root === undefined) {
+				return 0;
+			}
+			let q = [root];
+			let rs = 1;
+			let cur;
+			let len;
+			while(q.length) {
+				len = q.length;
+				for(let i = 0; i < len; i++) {
+					cur = q.shift();
+					if(cur.left === null && cur.right === null) {
+						return rs;
+					}
+					if(cur.left !== null) {
+						q.push(cur.left);
+					}
+					if(cur.right !== null) {
+						q.push(cur.right);
+					}
+				}
+				rs++;
+			}
+			//return rs;
+		};
+		function TreeNode(val) {
+			this.val = val;
+			this.left = this.right = null;
+		}
+
+		var test = new TreeNode(3);
+		test.left = new TreeNode(9);
+		test.right = new TreeNode(20);
+		test.right.left = new TreeNode(15);
+		test.right.right = new TreeNode(7);
+
+		//[3,9,20,null,null,15,7]
+
+		console.log(averageOfLevels(test));
+	</script>
+</body>
+
+</html>

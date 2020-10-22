@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style type="text/css">
+		html {
+			width: 100%;
+			height: 100%;
+		}
+
+		body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			/* background: -webkit-radial-gradient(#1a5970 0%, #000000 100%);
+      background: radial-gradient(#1a5970 0%, #000000 100%); */
+		}
+
+		.clearfix {
+			*zoom: 1;
+		}
+
+		.clearfix:after {
+			content: ".";
+			display: block;
+			height: 0px;
+			font-size: 0px;
+			clear: both;
+			visibility: hidden;
+		}
+	</style>
+</head>
+
+<body>
+	<script type="text/javascript">
+		// 424. 替换后的最长重复字符
+		// 给你一个仅由大写英文字母组成的字符串，你可以将任意位置上的字符替换成另外的字符，总共可最多替换 k 次。在执行上述操作后，找到包含重复字母的最长子串的长度。
+
+		// 注意:
+		// 字符串长度 和 k 不会超过 104。
+
+		// 示例 1:
+
+		// 输入:
+		// s = "ABAB", k = 2
+
+		// 输出:
+		// 4
+
+		// 解释:
+		// 用两个'A'替换为两个'B',反之亦然。
+		// 示例 2:
+
+		// 输入:
+		// s = "AABABBA", k = 1
+
+		// 输出:
+		// 4
+
+		// 解释:
+		// 将中间的一个'A'替换为'B',字符串变为 "AABBBBA"。
+		// 子串 "BBBB" 有最长重复字母, 答案为 4。
+
+		var characterReplacement = function(s, k) {
+			let left = 0, right = 0, map = {}, max = 0;
+			while(right < s.length) {
+				if(!map[s[right]]) {
+					map[s[right]] = 0;
+				}
+				map[s[right]]++;
+				max = Math.max(max, map[s[right]]);
+				if(right - left + 1 - max > k) {
+					map[s[left]]--;
+					left++;
+					right++;
+				} else {
+					right++;
+				}
+				
+			}
+			return max + k;
+		};
+
+		console.log(characterReplacement('AABBBBA', 1));
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style type="text/css">
+		html {
+			width: 100%;
+			height: 100%;
+		}
+
+		body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			/* background: -webkit-radial-gradient(#1a5970 0%, #000000 100%);
+      background: radial-gradient(#1a5970 0%, #000000 100%); */
+		}
+
+		.clearfix {
+			*zoom: 1;
+		}
+
+		.clearfix:after {
+			content: ".";
+			display: block;
+			height: 0px;
+			font-size: 0px;
+			clear: both;
+			visibility: hidden;
+		}
+	</style>
+</head>
+
+<body>
+	<script type="text/javascript">
+	var Node = function(data) {
+		this.data = data;
+		this.next = null;
+	}
+
+	var LinkList = function() {
+		this.length = 0;
+		this.head = new Node(0);
+		this.add = function(data) {
+			var cur = this.head;
+			while(cur.next !== null) {
+				cur = cur.next;
+			}
+			cur.next = new Node(data);
+			this.length++;
+			return cur.next;
+		}
+		this.insert = function(data) {
+			var node = new Node(data);
+			node.next = this.head.next;
+			this.head.next = node;
+			this.length++;
+			return node;
+		}
+		this.remove = function(node) {
+			var cur;
+			if(node.next === null) {
+				cur = this.head;
+				while(cur.next !== node) {
+					cur = cur.next;
+				}
+				cur.next = null;
+			} else {
+				cur = node.next;
+				node.data = cur.data;
+				node.next = cur.next;
+				node.next = null;
+			}
+		}
+		this.invert1 = function(node) {
+			if(node.next === null) {
+				return node;
+			}
+			var newHead = this.invert(node.next);
+			node.next.next = node;
+			node.next = null;
+			return newHead; 
+		}
+		this.invert = function() {
+			var pre = this.head.next;
+			var cur = pre.next;
+			pre.next = null;
+			while(cur !== null) {
+				var next = cur.next;
+				cur.next = pre;
+				pre = cur;
+				cur = next;
+			}
+			this.head.next = pre;
+		}
+	}
+
+
+	var computeSimilarities = function(docs) {
+		let rs = [];
+		let ll = new LinkList(), node2;
+		for(let i = 0; i < docs.length; i++) {
+			let node = ll.add(docs[i]);
+			if(i === 0) {
+				node2 = node;
+			}
+		}
+		//ll.remove(node2);
+		var newHead = ll.invert(ll.head.next);
+		//ll.head.next = newHead;
+		console.log(ll);
+		return rs;
+	};
+	console.log(computeSimilarities([1, 2, 3, 4]));
+	</script>
+</body>
+
+</html>

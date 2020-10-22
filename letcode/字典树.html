@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style type="text/css">
+		html {
+			width: 100%;
+			height: 100%;
+		}
+
+		body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			/* background: -webkit-radial-gradient(#1a5970 0%, #000000 100%);
+      background: radial-gradient(#1a5970 0%, #000000 100%); */
+		}
+
+		.clearfix {
+			*zoom: 1;
+		}
+
+		.clearfix:after {
+			content: ".";
+			display: block;
+			height: 0px;
+			font-size: 0px;
+			clear: both;
+			visibility: hidden;
+		}
+	</style>
+</head>
+
+<body>
+	<script type="text/javascript">
+	class Node {
+		constructor(value) {
+			this.value = value;
+			this.isEnd = false;
+			this.next = [];
+		}
+		get(value) {
+			for(let i = 0; i < this.next.length; i++) {
+				if(value === this.next[i].value) {
+					return this.next[i];
+				}
+			}
+			return null;
+		}
+	}
+
+	class Trie {
+		constructor() {
+			this.root = new Node(null);
+			this.size = 0;
+		}
+		add(word) {
+			var cur = this.root;
+			for(let i = 0; i < word.length; i++) {
+				var node = cur.get(word[i]);
+				if(node === null) {
+					node = new Node(word[i]);
+					cur.next.push(node);
+				}
+				cur = node;
+				if(!node.isEnd) {
+					node.isEnd = true;
+					this.size++;
+				}
+			}
+		}
+		search(word) {
+			var cur = this.root;
+			for(let i = 0; i < word.length; i++) {
+				var node = cur.get(word[i]);
+				if(node === null) {
+					return false;
+				}
+				cur = node;
+			}
+			return cur.isEnd;
+		}
+	}
+
+	const nt = new Trie()
+	nt.add('name');
+	nt.add('word');
+	nt.add('happy');
+	nt.add('trie');
+	console.log(nt);
+	// console.log(nt.root['d'])
+	console.log(nt.search('namee'));
+	console.log(nt.search('trie'));
+	console.log(nt.search('word'));
+	</script>
+</body>
+
+</html>

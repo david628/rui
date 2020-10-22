@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style type="text/css">
+		html {
+			width: 100%;
+			height: 100%;
+		}
+
+		body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			/* background: -webkit-radial-gradient(#1a5970 0%, #000000 100%);
+      background: radial-gradient(#1a5970 0%, #000000 100%); */
+		}
+
+		.clearfix {
+			*zoom: 1;
+		}
+
+		.clearfix:after {
+			content: ".";
+			display: block;
+			height: 0px;
+			font-size: 0px;
+			clear: both;
+			visibility: hidden;
+		}
+	</style>
+</head>
+
+<body>
+	<script type="text/javascript">
+	var n = 3, graph = [[0, 1], [0, 2], [1, 2], [1, 2]], start = 1, target = 2;
+
+	// var findWhetherExistsPath = function(n, graph, start, target) {
+	// 	if (start === target) {
+	// 		return true;
+	// 	}
+	// 	const set = new Set([start]);
+	// 	let count = 1;
+	// 	while (true) {
+	// 		for (const item of graph) {
+	// 			if (set.has(item[0])) {
+	// 				if (item[1] === target) {
+	// 					return true;
+	// 				}
+	// 				set.add(item[1])
+	// 			}
+	// 		}
+	// 		if (set.size > count) {
+	// 			count = set.size;
+	// 		} else {
+	// 			return false;
+	// 		}
+	// 	}
+	// }
+
+
+	// console.log(findWhetherExistsPath(n, graph, 1, 0));
+
+	
+	class Graph {
+		constructor() {
+			this.nodes = new Set();
+			this.links = new Map();
+		}
+		addEdge(edges) {
+			if (!this.nodes.has(edges[0])) {
+				this.nodes.add(edges[0]);
+				this.links.set(edges[0], []);
+			}
+			this.links.get(edges[0]).push(edges[1]);
+
+			if (!this.nodes.has[edges[1]]) {
+				this.nodes.add(edges[1]);
+				this.links.set(edges[1], []);
+			}
+			// 无向图
+			// this.links.get(edges[1]).push(edges[0]);
+		}
+		hasByBFS(start, target) {
+			let vised = [];
+			for(let node of this.nodes) {
+				vised[node] = false;
+			}
+			if(this.nodes.has(start) && this.nodes.has(target)) {
+				let queue = [start];
+				while(queue.length) {
+					let curNode = queue.shift();
+					let list = this.links.get(curNode);
+					for(let item of list) {
+						if(target === item) {
+							return true;
+						}
+						if(vised[item] === false) {
+							vised[item] = true;
+							queue.push(item);
+						}
+
+					}
+					vised[curNode] = true;
+				}
+			}
+			return false;
+		}
+		hasByDFS(start, target) {
+			let vised = [];
+			for(let node of this.nodes) {
+				vised[node] = false;
+			}
+			return this.dfs(start, target, vised) ? true : false;
+		}
+		dfs(start, target, vised) {
+			vised[start] = true;
+			let list = this.links.get(start);
+			for(let item of list) {
+				if(vised[item] === false) {
+					if(item === target) {
+						return true;
+					}
+					if(this.dfs(item, target, vised)) {
+						return true;
+					}
+				}
+			}
+		}
+		// hasByBFS(start, target) {
+		// 	// 用一个数组，来表示每个顶点是否被遍历过
+		// 	let traverse = [];
+		// 	// 先给所有顶点遍历一遍，给他们设置false，表示他们没有被遍历过
+		// 	for (const node of this.nodes) {
+		// 		traverse[node] = false;
+		// 	}
+		// 	if (this.nodes.has(start) && this.nodes.has(target)) {
+		// 		// 新建一个队列，注意用数组模拟队列。
+		// 		let queue = [];
+		// 		// 首先把开始节点添加到队列
+		// 		queue.push(start);
+		// 		// 然后开始循环，循环条件是队列里是否有值
+		// 		while (queue.length) {
+		// 			// 首先把队列里的队头取出来
+		// 			let curNode = queue.shift();
+		// 			// 然后获取队头节点相关的节点
+		// 			let list = this.links.get(curNode);
+		// 			for (const item of list) {
+		// 				// 遍历他们，然后判断他们是否和结尾相等
+		// 				if (item === target) {
+		// 					// 退出循环的条件是发现相等
+		// 					return true;
+		// 				}
+		// 				// 如果这个节点没被遍历过，就给他设置遍历过的属性，然后将它加入到队列里。继续执行循环。
+		// 				if (traverse[item] === false) {
+		// 					traverse[item] = true;
+		// 					queue.push(item);
+		// 				}
+		// 			}
+		// 			// 给头也设置一下遍历过的属性，下次可以避免重复遍历。
+		// 			traverse[curNode] = true;
+		// 		}
+		// 	}
+		// 	// 如果整个广度遍历完了，还没有找到相等的话，那么就返回false
+		// 	return false;
+		// }
+		// hasByDFS(start, target) {
+		// 	// 同样初始化遍历数组。给他们每个顶点都设置成false
+		// 	let vised = [];
+		// 	for (let node of this.nodes) {
+		// 		vised[node] = false;
+		// 	}
+		// 	// 执行递归。
+		// 	return this.dfs(start, target, vised) ? true : false;
+		// }
+		// dfs(start, target, vised) {
+		// 	// 给第一个节点加上遍历过的标记
+		// 	vised[start] = true;
+		// 	// 然后获取到他的有关节点
+		// 	let list = this.links.get(start);
+		// 	// 开始遍历有关节点
+		// 	for (let item of list) {
+		// 		// 判断他们是否遍历过
+		// 		if (vised[item] === false) {
+		// 			// 如果相等，则返回false
+		// 			if (item === target) {
+		// 				return true;
+		// 			}
+		// 			// 然后接着执行递归，注意这里需要用if包上是因为发现就返回true，接下就不用向后执行递归了。
+		// 			// 如果这里没有if包着，发现v2节点之后还是会接着往后递归。最终返回undefined
+		// 			if (this.dfs(item, target, vised)) {
+		// 				return true;
+		// 			}
+		// 		}
+		// 	}
+		// }
+	}
+
+
+
+
+	var gh = new Graph();
+	for(let i = 0; i < graph.length; i++) {
+		gh.addEdge(graph[i]);
+	}
+	console.log(gh.hasByBFS(start, target));
+	console.log(gh.hasByDFS(start, target));
+	</script>
+</body>
+
+</html>

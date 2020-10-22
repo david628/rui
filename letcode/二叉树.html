@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+
+    </style>
+</head>
+<body style="background: #eee;">
+<script type="text/javascript">
+    var Node = function(data, left, right) {
+        this.data = data;
+        this.left = left;
+        this.right = right;
+        this.show = function() {
+            console.log('data', this.data);
+        }
+    }
+
+    var BST = function() {
+        this.root = null;
+
+        this.insert = function(data) {
+            var node = new Node(data, null, null);
+            if(this.root === null) {
+                this.root = node;
+            } else {
+                this.insertNode(this.root, node);
+            }
+        }
+
+        this.insertNode = function(cur, node) {
+            if(node.data < cur.data) {
+                if(cur.left) {
+                    this.insertNode(cur.left, node);
+                } else {
+                    cur.left = node; 
+                }
+            } else {
+                if(cur.right) {
+                    this.insertNode(cur.right, node);
+                } else {
+                    cur.right = node;
+                }
+            }
+        }
+
+        this.preOrder = function(node) {
+            if(node !== null) {
+                console.log('pre', node.show());
+                this.preOrder(node.left);
+                this.preOrder(node.right);
+            }
+        }
+
+        this.inOrder = function(node) {
+            if(node !== null) {
+                this.inOrder(node.left);
+                console.log('in', node.show());
+                this.inOrder(node.right);
+            }
+        }
+
+        this.postOrder = function(node) {
+            if(node !== null) {
+                this.postOrder(node.left);
+                this.postOrder(node.right);
+                console.log('post', node.show());
+            }
+        }
+
+        this.getMin = function() {
+            var cur = this.root;
+            while(cur.left !== null) {
+                cur = cur.left;
+            }
+            return cur.data;
+        }
+
+        this.getMax = function() {
+            var cur = this.root;
+            while(cur.right !== null) {
+                cur = cur.right;
+            }
+            return cur.data;
+        }
+
+        this.findMinNode = function(node) {
+            while(node && node.left) {
+                node = node.left;
+            }
+            return node;
+        }
+
+        this.find = function(data) {
+            var cur = this.root;
+            while(cur !== null) {
+                if(cur.data === data) {
+                    return cur;
+                } else if(data < cur.data) {
+                    cur = cur.left;
+                } else {
+                    cur = cur.right;
+                }
+            }
+            return null;
+        }
+
+        this.remove = function(data) {
+            var root = this.removeNode(this.root, data);
+            console.log(root);
+        }
+
+        this.removeNode = function(node, data) {
+            if(node === null) {
+                return node;
+            }
+            if(data < node.data) {
+                this.removeNode(node.left, data);
+                return node;
+            }
+            if(data > node.data) {
+                this.removeNode(node.right, data);
+                return node;
+            }
+            if(data === node.data) {
+                if(node.left === null && node.right === null) {
+                    node = null;
+                    return node;
+                }
+            }
+            if(node.left === null) {
+                node = node.right;
+                return node;
+            }
+
+            if(node.right === null) {
+                node = node.left;
+                return node;
+            }
+
+            let minNode = this.findMinNode(node);
+            node.data = minNode.data;
+            node.right = this.removeNode(node.right, minNode.data);
+            return node;
+            
+        }
+
+    }
+
+    const tree = new BST();
+    tree.insert(11);
+    tree.insert(7);
+    tree.insert(5);
+    tree.insert(3);
+    tree.insert(9);
+    tree.insert(8);
+    tree.insert(10);
+    tree.insert(13);
+    tree.insert(12);
+    tree.insert(14);
+    tree.insert(20);
+    tree.insert(18);
+    tree.insert(25);
+    console.log(tree);
+    console.log(tree.root);
+
+console.log(tree.remove(14));
+
+    var maxRectangle = function(words) {
+        var rs;
+
+
+
+        return rs;
+    };
+
+    console.log(maxRectangle(["trh", "hea", "iar", "sld", "real", "hard", "this"]));
+</script>
+</body>
+</html>

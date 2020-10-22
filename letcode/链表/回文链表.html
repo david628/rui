@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style type="text/css">
+		html {
+			width: 100%;
+			height: 100%;
+		}
+
+		body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			/* background: -webkit-radial-gradient(#1a5970 0%, #000000 100%);
+      background: radial-gradient(#1a5970 0%, #000000 100%); */
+		}
+
+		.clearfix {
+			*zoom: 1;
+		}
+
+		.clearfix:after {
+			content: ".";
+			display: block;
+			height: 0px;
+			font-size: 0px;
+			clear: both;
+			visibility: hidden;
+		}
+	</style>
+</head>
+
+<body>
+	<script type="text/javascript">
+		// 请判断一个链表是否为回文链表。
+
+		// 示例 1:
+
+		// 输入: 1->2
+		// 输出: false
+		// 示例 2:
+
+		// 输入: 1->2->2->1
+		// 输出: true
+		// 进阶：
+		// 你能否用 O(n) 时间复杂度和 O(1) 空间复杂度解决此题？
+
+		/**
+		* Definition for singly-linked list.
+		* function ListNode(val) {
+		*     this.val = val;
+		*     this.next = null;
+		* }
+		*/
+		/**
+		* @param {ListNode} head
+		* @return {boolean}
+		*/
+		var isPalindrome = function(head) {
+			if(!head || !head.next) {
+				return true;
+			}
+			let left = head;
+			let right = head;
+			let arr = [];
+			while(right && right.next) {
+				arr.push(left.val);
+				left = left.next;
+				right = right.next.next;
+			}
+			if(right !== null) {
+				left = left.next;
+			}
+			// else 2 
+			while(left) {
+				let cur = arr.pop();
+				if(cur !== left.val) {
+					return false;
+				}
+				left = left.next;
+			}
+			return true;
+		};
+
+		console.log(characterReplacement('AABBBBA', 1));
+	</script>
+</body>
+
+</html>

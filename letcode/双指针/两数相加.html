@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style type="text/css">
+		html {
+			width: 100%;
+			height: 100%;
+		}
+
+		body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			/* background: -webkit-radial-gradient(#1a5970 0%, #000000 100%);
+      background: radial-gradient(#1a5970 0%, #000000 100%); */
+		}
+
+		.clearfix {
+			*zoom: 1;
+		}
+
+		.clearfix:after {
+			content: ".";
+			display: block;
+			height: 0px;
+			font-size: 0px;
+			clear: both;
+			visibility: hidden;
+		}
+	</style>
+</head>
+
+<body>
+	<script type="text/javascript">
+	// 2. 两数相加
+	// 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
+
+	// 如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
+
+	// 您可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+
+	// 示例：
+
+	// 输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
+	// 输出：7 -> 0 -> 8
+	// 原因：342 + 465 = 807
+
+	var addTwoNumbers = function(l1, l2) {
+		let cur1 = l1;
+		let cur2 = l2;
+		let incret = 0;
+		let sum = 0;
+		let rs;
+		let curNode;
+		while(cur1 !== null || cur2 !== null) {
+			if(cur1 === null) {
+				sum = cur2.val + incret;
+			} else if(cur2 === null) {
+				sum = cur1.val + incret;
+			} else {
+				sum = cur1.val + cur2.val + incret;
+			}
+			incret = 0;
+			if(sum >= 10) {
+				incret = 1;
+				sum = sum % 10;
+			}
+			if(cur1 !== null) {
+				cur1 = cur1.next;
+			}
+			if(cur2 !== null) {
+				cur2 = cur2.next;
+			}
+			if(rs === undefined) {
+				rs = new ListNode(sum);
+				curNode = rs;
+			} else {
+				curNode.next = new ListNode(sum);
+				curNode = curNode.next;
+			}
+		}
+		if(incret > 0) {
+			curNode.next = new ListNode(1); 
+		}
+		return rs;
+	};
+
+	function ListNode(val) {
+    	this.val = val;
+    	this.next = null;
+ 	}
+	var l1 = new ListNode(2);
+	var l2 = new ListNode(5);
+
+	var node1 = new ListNode(4);
+	var node2 = new ListNode(3);
+
+
+	var node3 = new ListNode(6);
+	var node4 = new ListNode(4);
+
+	l1.next = node1;
+	node1.next = node2;
+
+	l2.next = node3;
+	node3.next = node4;
+
+	console.log(addTwoNumbers(l1, l2));
+	</script>
+</body>
+
+</html>

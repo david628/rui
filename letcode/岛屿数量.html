@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style type="text/css">
+		html {
+			width: 100%;
+			height: 100%;
+		}
+
+		body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			/* background: -webkit-radial-gradient(#1a5970 0%, #000000 100%);
+      background: radial-gradient(#1a5970 0%, #000000 100%); */
+		}
+
+		.clearfix {
+			*zoom: 1;
+		}
+
+		.clearfix:after {
+			content: ".";
+			display: block;
+			height: 0px;
+			font-size: 0px;
+			clear: both;
+			visibility: hidden;
+		}
+	</style>
+</head>
+
+<body>
+	<script type="text/javascript">
+	// 200. 岛屿数量
+	// 给你一个由 '1'（陆地）和 '0'（水）组成的的二维网格，请你计算网格中岛屿的数量。
+
+	// 岛屿总是被水包围，并且每座岛屿只能由水平方向或竖直方向上相邻的陆地连接形成。
+
+	// 此外，你可以假设该网格的四条边均被水包围。
+
+	
+
+	// 示例 1:
+
+	// 输入:
+	// [
+	// ['1','1','1','1','0'],
+	// ['1','1','0','1','0'],
+	// ['1','1','0','0','0'],
+	// ['0','0','0','0','0']
+	// ]
+	// 输出: 1
+	// 示例 2:
+
+	// 输入:
+	// [
+	// ['1','1','0','0','0'],
+	// ['1','1','0','0','0'],
+	// ['0','0','1','0','0'],
+	// ['0','0','0','1','1']
+	// ]
+	// 输出: 3
+	// 解释: 每座岛屿只能由水平和/或竖直方向上相邻的陆地连接而成。
+
+	var numIslands = function(grid) {
+		if(grid.length < 0 || grid[0].length < 0) {
+			return 0;
+		}
+		let maxRow = grid.length;
+		let maxCol = grid[0].length;
+		let vis = {};
+		let rs = 0;
+		const dfs = function(row, col) {
+			if(row < 0 || col < 0 || row > maxRow - 1 || col > maxCol - 1 || vis[`${row}-${col}`] || grid[row][col] !== '1') {
+				return;
+			}
+			vis[`${row}-${col}`] = true;
+			dfs(row - 1, col);
+			dfs(row + 1, col);
+			dfs(row, col - 1);
+			dfs(row, col + 1);
+		}
+		for(let i = 0; i < maxRow; i++) {
+			for(let j = 0; j < maxCol; j++) {
+				if(!vis[`${i}-${j}`] && grid[i][j] === '1') {
+					dfs(i, j);
+					rs++;
+				}
+			}
+		}
+		return rs;
+	};
+
+	// console.log(numIslands(
+	// 	[
+	// 		['a','b','c','d','e', 'f'],
+	// 		['aa','bb','cc','dd','ee', 'ff'],
+	// 		['aaa','bbb','ccc','ddd','eee', 'fff']
+	// 	]
+	// ));
+
+	console.log(numIslands(
+		[
+			['1','1','1','1','0'],
+			['1','1','0','1','0'],
+			['1','1','0','0','0'],
+			['0','0','0','0','0']
+		]
+	));
+	</script>
+</body>
+
+</html>

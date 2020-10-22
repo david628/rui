@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body style="background: #eee;">
+    <script type="text/javascript">
+        // 面试题 17.24. 最大子矩阵
+        // 给定一个正整数和负整数组成的 N × M 矩阵，编写代码找出元素总和最大的子矩阵。
+
+        // 返回一个数组 [r1, c1, r2, c2]，其中 r1, c1 分别代表子矩阵左上角的行号和列号，r2, c2 分别代表右下角的行号和列号。若有多个满足条件的子矩阵，返回任意一个均可。
+
+        // 注意：本题相对书上原题稍作改动
+
+        // 示例:
+
+        // 输入:
+        // [
+        // [-1,0],
+        // [0,-1]
+        // ]
+        // 输出: [0,1,0,1]
+        // 解释: 输入中标粗的元素即为输出所表示的矩阵
+
+        var getMaxMatrix = function (matrix) {
+            var maxSubArray = function (nums) {
+                let rs = nums.slice(), max = rs[0], index = 0, map = [];
+                for (let i = 1; i < rs.length; i++) {
+                    if (i === 0) {
+                        rs[i] = nums[i];
+                    } else {
+                        if (rs[i - 1] < 0) {
+                            rs[i] = nums[i];
+                        } else {
+                            rs[i] = rs[i - 1] + nums[i];
+                        }
+                        if (max <= rs[i]) {
+                            max = rs[i];
+                            index = i;
+                        }
+                    }
+                }
+                for (let i = index; i >= 0; i--) {
+                    if (rs[i] < 0) {
+                        break;
+                    }
+                    map.unshift(i);
+                }
+                return map;
+            };
+
+            let arr = [], indexs = [];
+            for (let i = 0; i < matrix.length; i++) {
+                for (let j = 0; j < matrix[i].length; j++) {
+                    arr.push(matrix[i][j]);
+                    indexs.push([i, j]);
+                }
+            }
+            //console.log(arr);
+            let s = maxSubArray(arr), rs;
+            if (s.length) {
+                rs = indexs[s[0]].concat(indexs[s[s.length - 1]]);
+            } else {
+                rs = [0, 0, 0, 0];
+            }
+            return rs;
+        };
+        console.log(getMaxMatrix(
+            // [
+            //     [-1, 0],
+            //     [0, -1]
+            // ]
+            // [
+            //     [9, -8, 1, 3, -2],
+            //     [-3, 7, 6, -2, 4],
+            //     [6, -4, -4, 8, -7]
+            // ]
+            //[[-1]]
+            [
+                [-1, -2, -9, 6], 
+                [8, -9, -3, -6], 
+                [2, 9, -7, -6]
+            ]
+        ));
+    </script>
+</body>
+
+</html>

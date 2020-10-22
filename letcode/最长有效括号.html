@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body style="background: #eee;">
+    <script type="text/javascript">
+    // 32. 最长有效括号
+    // 给定一个只包含 '(' 和 ')' 的字符串，找出最长的包含有效括号的子串的长度。
+
+    // 示例 1:
+
+    // 输入: "(()"
+    // 输出: 2
+    // 解释: 最长有效括号子串为 "()"
+    // 示例 2:
+
+    // 输入: ")()())"
+    // 输出: 4
+    // 解释: 最长有效括号子串为 "()()"
+
+
+    var longestValidParentheses = function(s) {
+        let maxLen = 0;
+        const dp = new Array(s.length).fill(0);
+        for(let i = 0; i < s.length; i++) {
+            if(s[i] === ')') {
+                if(s[i - 1] === '(') {
+                    if(i - 2 >= 0) {
+                        dp[i] = dp[i - 2] + 2;
+                    } else {
+                        dp[i] = 2;
+                    }
+                } else if(s[i - 1] === ')') {
+                    if(s[i - dp[i - 1] - 1] === '(') {
+                        if(i - dp[i - 1] - 2 >= 0) {
+                            dp[i] = dp[i - dp[i - 1] - 2] + dp[i - 1] + 2;
+                        } else {
+                            dp[i] = dp[i - 1] + 2;
+                        }
+                    }
+                }
+            }
+            maxLen = Math.max(maxLen, dp[i]);
+        }
+        return maxLen;
+    };
+    //0 ( [0] cur = 0, len = 0
+    //1 ) []  cur = 2, len = 2
+    //2 ( [2] cur = 0, len = 2
+    //3 ( [2,3] cur = 0, len = 2
+    //4 ) [2]   cur = 2, len = 2
+
+
+    //0 ) [] cur = 0, len = 0
+    //1 ( [1] cur = 0, len = 0
+    //2 ) []  cur = 2, len = 2
+    //3 ( [3] cur = 0, len = 2
+    //4 ) []  cur = 2, len = 4
+    //5 ) []  cur = 0, len = 4
+
+    //console.log(longestValidParentheses(")()())"));
+    //console.log(longestValidParentheses("()(()"));
+    //console.log(longestValidParentheses("(()()"));
+    </script>
+</body>
+
+</html>

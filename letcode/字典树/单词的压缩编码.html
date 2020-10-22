@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body style="background: #eee;">
+    <script type="text/javascript">
+        // 820. 单词的压缩编码
+        // 给定一个单词列表，我们将这个列表编码成一个索引字符串 S 与一个索引列表 A。
+
+        // 例如，如果这个列表是 ["time", "me", "bell"]，我们就可以将其表示为 S = "time#bell#" 和 indexes = [0, 2, 5]。
+
+        // 对于每一个索引，我们可以通过从字符串 S 中索引的位置开始读取字符串，直到 "#" 结束，来恢复我们之前的单词列表。
+
+        // 那么成功对给定单词列表进行编码的最小字符串长度是多少呢？
+
+        
+
+        // 示例：
+
+        // 输入: words = ["time", "me", "bell"]
+        // 输出: 10
+        // 说明: S = "time#bell#" ， indexes = [0, 2, 5] 。
+
+
+
+        // IP路由，倒排索引
+
+        var minimumLengthEncoding = function(words) {
+            if(words.length === 1) {
+                return words[0].length + 1;
+            }
+            var Node = function(data) {
+                this.data = data;
+                this.isWord = false;
+                this.list = [];
+                this.get = function(data) {
+                    for(let i = 0; i < this.list.length; i++) {
+                        if(this.list[i].data === data) {
+                            return this.list[i];
+                        }
+                    }
+                    return null;
+                }
+            }
+            var Trie = function() {
+                this.root = new Node(null);
+                this.size = 0;
+                this.add = function(word) {
+                    let cur = this.root;
+                    for(let i = word.length - 1; i >= 0; i--) {
+                        let node = cur.get(word[i]);
+                        if(node === null) {
+                            node = new Node(word[i]);
+                            cur.list.push(node);
+                        }
+                        cur = node;
+                    }
+                    if(!cur.isWord) {
+                        cur.isWord = true;
+                        this.size++;
+                    }
+                }
+                this.search = function(word) {
+                    let cur = this.root;
+                    for(let i = word.length - 1; i >= 0; i--) {
+                        let node = cur.get(word[i]);
+                        if(node === null) {
+                            return false;
+                        }
+                        cur = node;
+                    }
+                    return cur.isWord;
+                }
+                this.startsWith = function(prefix) {
+                    let cur = this.root;
+                    for(let i = prefix.length - 1; i >= 0; i--) {
+                        let node = cur.get(prefix[i]);
+                        if(node === null) {
+                            return false;
+                        }
+                        cur = node;
+                    }
+                    return true;
+                };
+            }
+            let length = 0;
+            //let rs = [];
+            let trie = new Trie();
+            words.sort(function(a, b) {
+                return b.length - a.length;
+            });
+            for(let i = 0; i < words.length; i++) {
+                if(i === 0) {
+                    trie.add(words[i]);
+                    length += words[i].length;
+                    length++;
+                } else {    
+                    if(!trie.startsWith(words[i])) {
+                        trie.add(words[i]);
+                        length += words[i].length; 
+                        length++;
+                    }
+                }
+            }
+            return length;
+        };
+
+
+        console.log(minimumLengthEncoding(["time", "me", "bell"]));
+    </script>
+</body>
+
+</html>

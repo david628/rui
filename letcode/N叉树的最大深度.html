@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+
+    </style>
+</head>
+<body style="background: #eee;">
+<script type="text/javascript">
+// 559. N叉树的最大深度
+// 给定一个 N 叉树，找到其最大深度。
+
+// 最大深度是指从根节点到最远叶子节点的最长路径上的节点总数。
+
+// 例如，给定一个 3叉树 :
+
+// 我们应返回其最大深度，3。
+
+    var maxDepth = function(root) {
+        if(!root) {
+            return 0;
+        }
+        let queue = [root];
+        let step = 0;
+        while(queue.length) {
+            let len = queue.length;
+            for(let i = 0; i < len; i++) {
+                let cur = queue.shift();
+                for(let j = 0; j < cur.children.length; j++) {
+                    queue.push(cur.children[j]);
+                }
+            }
+            step++;
+        }
+        return step;
+    };
+
+
+    function Node(val,children) {
+        this.val = val;
+        this.children = children || [];
+    };
+    var data = new Node(1);
+    var nd = new Node(3);
+    nd.children = [
+        new Node(5),
+        new Node(6)
+    ];
+    data.children = [
+        nd,
+        new Node(2),
+        new Node(4)
+    ];
+
+
+    console.log(maxDepth(data));
+</script>
+</body>
+</html>
